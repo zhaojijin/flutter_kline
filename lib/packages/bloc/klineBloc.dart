@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 15:02:34
- * @LastEditTime: 2019-04-19 16:57:55
+ * @LastEditTime: 2019-04-19 17:08:36
  */
 import 'dart:math';
 
@@ -118,17 +118,17 @@ class KlineBloc extends KlineBlocBase {
       _priceMin = min(_priceMin, item.low);
 
       /// 与x日均线数据对比计算最高最低价格
-      if (item.priceMa5 != null) {
-        _priceMax = max(_priceMax, item.priceMa5);
-        _priceMin = min(_priceMin, item.priceMa5);
+      if (item.priceMa1 != null) {
+        _priceMax = max(_priceMax, item.priceMa1);
+        _priceMin = min(_priceMin, item.priceMa1);
       }
-      if (item.priceMa10 != null) {
-        _priceMax = max(_priceMax, item.priceMa10);
-        _priceMin = min(_priceMin, item.priceMa10);
+      if (item.priceMa2 != null) {
+        _priceMax = max(_priceMax, item.priceMa2);
+        _priceMin = min(_priceMin, item.priceMa2);
       }
-      if (item.priceMa20 != null) {
-        _priceMax = max(_priceMax, item.priceMa20);
-        _priceMin = min(_priceMin, item.priceMa20);
+      if (item.priceMa3 != null) {
+        _priceMax = max(_priceMax, item.priceMa3);
+        _priceMin = min(_priceMin, item.priceMa3);
       }
       priceMax = _priceMax;
       priceMin = _priceMin;

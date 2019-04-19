@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-18 16:48:38
- * @LastEditTime: 2019-04-19 16:44:36
+ * @LastEditTime: 2019-04-19 17:07:17
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBloc.dart';
@@ -70,12 +70,12 @@ class _KlineMaLinePainter extends CustomPainter {
       Market market = listData[i];
       Market nextMarket = listData[i + 1];
       // print(
-      // '============ market.priceMa5 : ${market.priceMa5}  market.priceMa10 : ${market.priceMa10}  market.priceMa20 : ${market.priceMa20} index: $i count : ${listData.length}');
-      if ((market.priceMa5 == null && maType == YKMAType.MA5) ||
-          (market.priceMa10 == null && maType == YKMAType.MA10) ||
-          (market.priceMa20 == null && maType == YKMAType.MA20)) {
+      // '============ market.priceMa1 : ${market.priceMa1}  market.priceMa2 : ${market.priceMa2}  market.priceMa3 : ${market.priceMa3} index: $i count : ${listData.length}');
+      if ((market.priceMa1 == null && maType == YKMAType.MA5) ||
+          (market.priceMa2 == null && maType == YKMAType.MA10) ||
+          (market.priceMa3 == null && maType == YKMAType.MA20)) {
         // print(
-        // 'continue========= ${market.priceMa5}==${market.priceMa10}==${market.priceMa20}');
+        // 'continue========= ${market.priceMa1}==${market.priceMa2}==${market.priceMa3}');
         break;
       }
       double currentMaPrice;
@@ -85,22 +85,22 @@ class _KlineMaLinePainter extends CustomPainter {
         case YKMAType.MA5:
           {
             lineColor = kMa5LineColor;
-            currentMaPrice = market.priceMa5;
-            currentNextMaPrice = nextMarket.priceMa5;
+            currentMaPrice = market.priceMa1;
+            currentNextMaPrice = nextMarket.priceMa1;
           }
           break;
         case YKMAType.MA10:
           {
             lineColor = kMa10LineColor;
-            currentMaPrice = market.priceMa10;
-            currentNextMaPrice = nextMarket.priceMa10;
+            currentMaPrice = market.priceMa2;
+            currentNextMaPrice = nextMarket.priceMa2;
           }
           break;
         case YKMAType.MA20:
           {
             lineColor = kMa20LineColor;
-            currentMaPrice = market.priceMa20;
-            currentNextMaPrice = nextMarket.priceMa20;
+            currentMaPrice = market.priceMa3;
+            currentNextMaPrice = nextMarket.priceMa3;
           }
           break;
         default:

@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 10:21:10
- * @LastEditTime: 2019-04-19 13:24:50
+ * @LastEditTime: 2019-04-19 17:13:38
  */
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.push(context, CupertinoPageRoute(builder: (context){
                 return Scaffold(
                   appBar: CupertinoNavigationBar(
-                    middle: Text('Kline'),
+                    middle: Text('BTC-USDT'),
                   ),
                   body: Container(
                     // margin: EdgeInsets.only(bottom: 34),

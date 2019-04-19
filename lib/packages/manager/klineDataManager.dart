@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 14:33:00
- * @LastEditTime: 2019-04-19 15:57:55
+ * @LastEditTime: 2019-04-19 17:09:20
  */
 
 import 'package:flutter_kline/packages/model/klineModel.dart';
@@ -35,9 +35,9 @@ class KlineDataManager {
       int listCount = tmpList.length;
       for (int i = tmpList.length - 1; i >= 0; i--) {
         Market market = tmpList[i];
-        if ((numIndex == 0 && market.priceMa5 != null) ||
-            (numIndex == 0 && market.priceMa10 != null) ||
-            (numIndex == 0 && market.priceMa20 != null)) {
+        if ((numIndex == 0 && market.priceMa1 != null) ||
+            (numIndex == 0 && market.priceMa2 != null) ||
+            (numIndex == 0 && market.priceMa3 != null)) {
           return tmpList;
         }
 
@@ -50,13 +50,13 @@ class KlineDataManager {
           if (lastData != null) {
             switch (numIndex) {
               case 0:
-                lastMa = lastData.priceMa5;
+                lastMa = lastData.priceMa1;
                 break;
               case 1:
-                lastMa = lastData.priceMa10;
+                lastMa = lastData.priceMa2;
                 break;
               case 2:
-                lastMa = lastData.priceMa20;
+                lastMa = lastData.priceMa3;
                 break;
               default:
                 break;
@@ -75,13 +75,13 @@ class KlineDataManager {
           priceMa = priceMa / maNum;
           switch (numIndex) {
             case 0:
-              tmpList[i].priceMa5 = priceMa;
+              tmpList[i].priceMa1 = priceMa;
               break;
             case 1:
-              tmpList[i].priceMa10 = priceMa;
+              tmpList[i].priceMa2 = priceMa;
               break;
             case 2:
-              tmpList[i].priceMa20 = priceMa;
+              tmpList[i].priceMa3 = priceMa;
               break;
             default:
               break;       
@@ -91,12 +91,13 @@ class KlineDataManager {
     }
     // print('first :${tmpList.first.vol}');
     for (var item in tmpList) {
-      // print('priceMA5: ${item.priceMa5}==priceMA10: ${item.priceMa10}==priceMA20: ${item.priceMa20}');
+      // print('priceMa1: ${item.priceMa1}==priceMa2: ${item.priceMa2}==priceMa3: ${item.priceMa3}');
     }
     return tmpList;
   }
 
   static List<Market> _calculateVolumeMa(List<Market> dataList) {
+    // TODO： 计算幅图Ma数据
     return dataList;
   }
 }
