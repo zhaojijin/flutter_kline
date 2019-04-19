@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 10:21:10
- * @LastEditTime: 2019-04-18 12:43:58
+ * @LastEditTime: 2019-04-19 13:24:50
  */
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
     return CupertinoApp(
       title: 'Kline Demo',
       home: MyHomePage(title: 'Kline Home Page'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 17:31:59
- * @LastEditTime: 2019-04-18 16:47:29
+ * @LastEditTime: 2019-04-19 16:55:05
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBloc.dart';
@@ -19,12 +19,9 @@ class KlinePriceGridWidget extends StatelessWidget {
     return StreamBuilder(
       stream: klineBloc.currentKlineListStream,
       builder: (BuildContext context, AsyncSnapshot<List<Market>> snapshot) {
-        List<Market> currentScreenList =
-            snapshot.data ?? [Market(0, 0, 0, 0, 0)];
         return CustomPaint(
           size: Size.infinite,
-          painter: _KlineGridPainter(
-              currentScreenList, klineBloc.priceMax, klineBloc.priceMin),
+          painter: _KlineGridPainter(klineBloc.priceMax, klineBloc.priceMin),
         );
       },
     );
@@ -32,11 +29,9 @@ class KlinePriceGridWidget extends StatelessWidget {
 }
 
 class _KlineGridPainter extends CustomPainter {
-  final List<Market> dataList;
   final double max;
   final double min;
-
-  _KlineGridPainter(this.dataList, this.max, this.min);
+  _KlineGridPainter(this.max, this.min);
 
   final double lineWidth = kGridLineWidth;
   final Color lineColor = kGridLineColor;
@@ -60,7 +55,7 @@ class _KlineGridPainter extends CustomPainter {
         width - max.toStringAsPrecision(kGridPricePrecision).length * 6;
     // 字体是10号字，但是实际上字体的高度会大于10所以加3
     double textHeight = kGridPriceFontSize + 3;
-    print('maxPrice: $max, minPrice: $min'); // 5407.18
+    // print('maxPrice: $max, minPrice: $min'); // 5407.18
     for (var i = 0; i < kGridRowCount + 1; i++) {
       canvas.drawLine(Offset(0, kTopMargin + heightOffset * i),
           Offset(width, kTopMargin + heightOffset * i), linePaint);
@@ -83,7 +78,7 @@ class _KlineGridPainter extends CustomPainter {
         text: TextSpan(
           text: text,
           style: TextStyle(
-            color: lineColor,
+            color: kGridTextColor,
             fontSize: kGridPriceFontSize,
             fontWeight: FontWeight.normal,
           ),

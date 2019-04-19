@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 14:33:00
- * @LastEditTime: 2019-04-19 00:03:59
+ * @LastEditTime: 2019-04-19 15:57:55
  */
 
 import 'package:flutter_kline/packages/model/klineModel.dart';
@@ -84,13 +84,15 @@ class KlineDataManager {
               tmpList[i].priceMa20 = priceMa;
               break;
             default:
-              break;
-              
+              break;       
           }
-        }
+        } 
       }
     }
-    print('first :${tmpList.first.vol}');
+    // print('first :${tmpList.first.vol}');
+    for (var item in tmpList) {
+      // print('priceMA5: ${item.priceMa5}==priceMA10: ${item.priceMa10}==priceMA20: ${item.priceMa20}');
+    }
     return tmpList;
   }
 

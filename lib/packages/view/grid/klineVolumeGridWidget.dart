@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 17:57:47
- * @LastEditTime: 2019-04-18 15:34:54
+ * @LastEditTime: 2019-04-19 16:56:34
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBloc.dart';
@@ -19,13 +19,9 @@ class KlineVolumeGridWidget extends StatelessWidget {
     return StreamBuilder(
       stream: bloc.currentKlineListStream,
       builder: (BuildContext context, AsyncSnapshot<List<Market>> snapshot) {
-        List<Market> dataList = snapshot.data ?? [Market(0, 0, 0, 0, 0)];
         return CustomPaint(
           size: Size.infinite,
-          painter: _VolumeGridPainter(
-            dataList,
-            bloc.volumeMax,
-          ),
+          painter: _VolumeGridPainter(bloc.volumeMax),
         );
       },
     );
@@ -33,17 +29,15 @@ class KlineVolumeGridWidget extends StatelessWidget {
 }
 
 class _VolumeGridPainter extends CustomPainter {
-  final List<Market> listData;
   final double maxVolume;
   _VolumeGridPainter(
-    this.listData,
     this.maxVolume,
   );
   final Color lineColor = kGridLineColor;
   final double lineWidth = kGridLineWidth;
   @override
   void paint(Canvas canvas, Size size) {
-    if (this.maxVolume == null) {
+    if (maxVolume == null) {
       return;
     }
     double height = size.height;
@@ -73,7 +67,7 @@ class _VolumeGridPainter extends CustomPainter {
         text: TextSpan(
           text: text,
           style: TextStyle(
-            color: lineColor,
+            color: kGridTextColor,
             fontSize: kGridPriceFontSize,
             fontWeight: FontWeight.normal,
           ),

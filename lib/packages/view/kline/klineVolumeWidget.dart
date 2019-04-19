@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-18 15:21:47
- * @LastEditTime: 2019-04-18 16:43:52
+ * @LastEditTime: 2019-04-19 16:49:45
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBloc.dart';
@@ -18,10 +18,11 @@ class KlineVolumeWidget extends StatelessWidget {
     return StreamBuilder(
       stream: bloc.currentKlineListStream,
       builder: (BuildContext context, AsyncSnapshot<List<Market>> snapshot) {
-        List<Market> listData = snapshot.data ?? [Market(0, 0, 0, 0, 0)];
+        // List<Market> listData =  ?? [Market(0, 0, 0, 0, 0)];
         return CustomPaint(
           size: Size.infinite,
-          painter: _KlineVolumePainter(listData,bloc.volumeMax),
+          painter: _KlineVolumePainter(
+              snapshot.data, bloc.volumeMax, bloc.candlestickWidth),
         );
       },
     );
@@ -34,10 +35,11 @@ class _KlineVolumePainter extends CustomPainter {
   _KlineVolumePainter(
     this.listData,
     this.maxVolume,
+    this.columnarWidth,
   );
 
   /// 柱状体宽度
-  final double columnarWidth = kColumnarWidth;
+  final double columnarWidth;
 
   /// 柱状体之间间隙 = 烛台间空隙
   final double columnarGap = kColumnarGap;
@@ -47,7 +49,7 @@ class _KlineVolumePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (maxVolume == null && maxVolume != 0) {
+    if (listData == null || maxVolume == null || maxVolume == 0) {
       return;
     }
     double height = size.height - columnarTopMargin;
@@ -71,25 +73,27 @@ class _KlineVolumePainter extends CustomPainter {
         painterColor = increaseColor;
       }
       columnarPaint = Paint()
-          ..color = painterColor
-          ..strokeWidth = columnarWidth 
-          ..isAntiAlias = true
-          ..filterQuality = FilterQuality.high;
+        ..color = painterColor
+        ..strokeWidth = columnarWidth
+        ..isAntiAlias = true
+        ..filterQuality = FilterQuality.high;
 
-      
       // 柱状体
-      int j = listData.length - 1 -i;
+      int j = listData.length - 1 - i;
       columnarRectLeft = j * (columnarWidth + columnarGap) + columnarGap;
       columnarRectRight = columnarRectLeft + columnarWidth;
-      columnarRectTop = height - market.vol * heightVolumeOffset + columnarTopMargin;
+      columnarRectTop =
+          height - market.vol * heightVolumeOffset + columnarTopMargin;
       columnarRectBottom = height + columnarTopMargin;
-      Rect columnarRect = Rect.fromLTRB(columnarRectLeft, columnarRectTop, columnarRectRight, columnarRectBottom);
+      // print('columnarRectTop : $columnarRectTop   columnarRectBottom: $columnarRectBottom');
+      Rect columnarRect = Rect.fromLTRB(columnarRectLeft, columnarRectTop,
+          columnarRectRight, columnarRectBottom);
       canvas.drawRect(columnarRect, columnarPaint);
     }
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+    return listData != null;
   }
 }

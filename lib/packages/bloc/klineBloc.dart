@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 15:02:34
- * @LastEditTime: 2019-04-19 10:06:25
+ * @LastEditTime: 2019-04-19 16:57:55
  */
 import 'dart:math';
 
@@ -42,6 +42,9 @@ class KlineBloc extends KlineBlocBase {
   double priceMax;
   double priceMin;
   double volumeMax;
+  int singleScreenCandleCount;
+  int firstScreenCandleCount;
+  double candlestickWidth = kCandlestickWidth;
 
   KlineBloc() {
     initData();
@@ -63,28 +66,42 @@ class KlineBloc extends KlineBlocBase {
             Market(item.open, item.high, item.low, item.close, item.vol);
         klineTotalList.add(data);
       }
-      klineTotalList =
-          KlineDataManager.calculateKlineData(YKChartType.MA, klineTotalList);
+      klineTotalList = KlineDataManager.calculateKlineData(YKChartType.MA, klineTotalList);
       // klineTotalList = [klineTotalList.first];
       _klineListSink.add(klineTotalList);
     }
   }
 
-  void setScreenWidth(double width) {
+  void setCandlestickWidth(double scaleWidth) {
+      if (scaleWidth > 20 || scaleWidth < 1) {
+        return;
+      }
+      this.candlestickWidth = scaleWidth;
+  }
+
+  void setSingleScreenCandleCount(double width) {
     screenWidth = width;
     // count *(candlestickWith + candlestickGap) + candlestickGap = screenWidth
-    double count = (screenWidth - kCandlestickGap) / (kCandlestickWidth + kCandlestickGap);
+    double count = (screenWidth - kCandlestickGap) / (candlestickWidth + kCandlestickGap);
     int totalScreenCountNum = count.toInt();
+    singleScreenCandleCount = totalScreenCountNum;
     int maxCount = this.klineTotalList.length;
-    int firstScreenNum = (((kGridColumCount-1)/kGridColumCount) * totalScreenCountNum).toInt();
-    if (totalScreenCountNum > maxCount) {
+    int firstScreenNum = (((kGridColumCount-1)/kGridColumCount) * singleScreenCandleCount).toInt(); 
+    if (singleScreenCandleCount > maxCount) {
       firstScreenNum = maxCount;
     } 
-    getSubKlineList(0, firstScreenNum);
+    currentIndex = firstScreenNum;
+    firstScreenCandleCount = firstScreenNum;
+  }
+
+  void setScreenWidth(double width) {
+    setSingleScreenCandleCount(width);
+    getSubKlineList(0, firstScreenCandleCount);
   }
 
   void getSubKlineList(int from, int to) {
     List<Market> list = this.klineTotalList;
+    klineCurrentList.clear();
     klineCurrentList = list.sublist(from, to);
     _calculateCurrentKlineDataLimit();
     _currentKlineListSink.add(klineCurrentList);

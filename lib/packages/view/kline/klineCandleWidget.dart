@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-18 12:44:49
- * @LastEditTime: 2019-04-18 19:03:48
+ * @LastEditTime: 2019-04-19 13:20:16
  */
 
 import 'package:flutter/material.dart';
@@ -19,10 +19,11 @@ class KlineCandleWidget extends StatelessWidget {
     return StreamBuilder(
       stream: bloc.currentKlineListStream,
       builder: (BuildContext context, AsyncSnapshot<List<Market>> snapshot) {
-        List<Market> listData = snapshot.data ?? [Market(0, 0, 0, 0, 0)];
+        // List<Market> listData =  ?? [Market(0, 0, 0, 0, 0)];
         return CustomPaint(
           size: Size.infinite,
-          painter: _CandlePainter(listData, bloc.priceMax, bloc.priceMin),
+          painter: _CandlePainter(snapshot.data, bloc.priceMax, bloc.priceMin,
+              bloc.candlestickWidth),
         );
       },
     );
@@ -34,13 +35,14 @@ class _CandlePainter extends CustomPainter {
     this.listData,
     this.priceMax,
     this.priceMin,
+    this.candlestickWidth,
   );
   final List<Market> listData;
   final double priceMax;
   final double priceMin;
 
   /// 烛台宽度
-  final double candlestickWidth = kCandlestickWidth;
+  final double candlestickWidth;
 
   /// 灯芯宽度
   final double wickWidth = kWickWidth;
@@ -55,7 +57,7 @@ class _CandlePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (priceMax == null && priceMin == null) {
+    if (listData == null || priceMax == null || priceMin == null) {
       return;
     }
     double height = size.height - topMargin;
@@ -80,26 +82,33 @@ class _CandlePainter extends CustomPainter {
         painterColor = increaseColor;
       }
       candlestickPaint = Paint()
-          ..color = painterColor
-          ..strokeWidth = wickWidth
-          ..isAntiAlias = true
-          ..filterQuality = FilterQuality.high; 
+        ..color = painterColor
+        ..strokeWidth = wickWidth
+        ..isAntiAlias = true
+        ..filterQuality = FilterQuality.high;
 
       // 绘制烛台
-      int j = listData.length - 1 -i;
-      candlestickLeft = j * (candlestickWidth + candlestickGap) + candlestickGap;
+      int j = listData.length - 1 - i;
+      candlestickLeft =
+          j * (candlestickWidth + candlestickGap) + candlestickGap;
       candlestickRight = candlestickLeft + candlestickWidth;
-      print('candlestickLeft: $candlestickLeft === candlestickRight: $candlestickRight    ${listData.length}');
-      candlestickTop = height - (market.open - priceMin) *heightPriceOffset + topMargin;
-      candlestickBottom = height - (market.close - priceMin) *heightPriceOffset + topMargin;
+      // print('candlestickLeft: $candlestickLeft === candlestickRight: $candlestickRight    ${listData.length}');
+      candlestickTop =
+          height - (market.open - priceMin) * heightPriceOffset + topMargin;
+      candlestickBottom =
+          height - (market.close - priceMin) * heightPriceOffset + topMargin;
 
-      Rect candlestickRect = Rect.fromLTRB(candlestickLeft, candlestickTop, candlestickRight, candlestickBottom);
+      Rect candlestickRect = Rect.fromLTRB(
+          candlestickLeft, candlestickTop, candlestickRight, candlestickBottom);
       canvas.drawRect(candlestickRect, candlestickPaint);
 
       // 绘制上影线/下影线
-      double low = height - (market.low - priceMin) *heightPriceOffset + topMargin;
-      double high = height - (market.high - priceMin) *heightPriceOffset + topMargin;
-      double candlestickCenterX = candlestickLeft + candlestickWidth/2 - candlestickGap/2;
+      double low =
+          height - (market.low - priceMin) * heightPriceOffset + topMargin;
+      double high =
+          height - (market.high - priceMin) * heightPriceOffset + topMargin;
+      double candlestickCenterX =
+          candlestickLeft + candlestickWidth / 2 - wickWidth / 2;
       Offset highBottomOffset = Offset(candlestickCenterX, candlestickTop);
       Offset highTopOffset = Offset(candlestickCenterX, high);
       Offset lowBottomOffset = Offset(candlestickCenterX, candlestickBottom);
@@ -111,7 +120,6 @@ class _CandlePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    
-    return true;
+    return listData != null;
   }
 }
