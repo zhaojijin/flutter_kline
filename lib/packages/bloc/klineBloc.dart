@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 15:02:34
- * @LastEditTime: 2019-04-19 17:08:36
+ * @LastEditTime: 2019-04-22 14:54:47
  */
 import 'dart:math';
 
@@ -35,16 +35,16 @@ class KlineBloc extends KlineBlocBase {
   /// 总数据
   List<Market> klineTotalList = List();
 
-  /// 当前K线滑到的位置
-  int currentIndex = 0;
-
   double screenWidth = 375;
   double priceMax;
   double priceMin;
   double volumeMax;
-  int singleScreenCandleCount;
   int firstScreenCandleCount;
   double candlestickWidth = kCandlestickWidth;
+  /// 当前K线滑到的起点位置
+  int fromIndex;
+  /// 当前K线滑到的终点位置
+  int toIndex;
 
   KlineBloc() {
     initData();
@@ -73,33 +73,39 @@ class KlineBloc extends KlineBlocBase {
   }
 
   void setCandlestickWidth(double scaleWidth) {
-      if (scaleWidth > 20 || scaleWidth < 1) {
+      if (scaleWidth > 25 || scaleWidth < 2) {
         return;
       }
-      this.candlestickWidth = scaleWidth;
+      candlestickWidth = scaleWidth;
   }
 
-  void setSingleScreenCandleCount(double width) {
+  int getSingleScreenCandleCount(double width) {
     screenWidth = width;
-    // count *(candlestickWith + candlestickGap) + candlestickGap = screenWidth
     double count = (screenWidth - kCandlestickGap) / (candlestickWidth + kCandlestickGap);
     int totalScreenCountNum = count.toInt();
-    singleScreenCandleCount = totalScreenCountNum;
-    int maxCount = this.klineTotalList.length;
-    int firstScreenNum = (((kGridColumCount-1)/kGridColumCount) * singleScreenCandleCount).toInt(); 
-    if (singleScreenCandleCount > maxCount) {
-      firstScreenNum = maxCount;
-    } 
-    currentIndex = firstScreenNum;
-    firstScreenCandleCount = firstScreenNum;
+    return totalScreenCountNum;
+  }
+
+  double getFirstScreenScale() {
+    return (kGridColumCount-1)/kGridColumCount;
   }
 
   void setScreenWidth(double width) {
-    setSingleScreenCandleCount(width);
+    screenWidth = width;
+    int  singleScreenCandleCount = getSingleScreenCandleCount(screenWidth);
+    int maxCount = this.klineTotalList.length;
+    int firstScreenNum = (getFirstScreenScale() * singleScreenCandleCount).toInt(); 
+    if (singleScreenCandleCount > maxCount) {
+      firstScreenNum = maxCount;
+    } 
+    firstScreenCandleCount = firstScreenNum;
+
     getSubKlineList(0, firstScreenCandleCount);
   }
 
   void getSubKlineList(int from, int to) {
+    fromIndex = from;
+    toIndex = to;
     List<Market> list = this.klineTotalList;
     klineCurrentList.clear();
     klineCurrentList = list.sublist(from, to);
@@ -133,6 +139,9 @@ class KlineBloc extends KlineBlocBase {
       priceMax = _priceMax;
       priceMin = _priceMin;
       volumeMax = _volumeMax;
+
+      // print('priceMax : $priceMax');
+      // print('priceMax : $priceMax priceMin: $priceMin volumeMax: $volumeMax');
     }
   }
 }

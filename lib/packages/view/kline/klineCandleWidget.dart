@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-18 12:44:49
- * @LastEditTime: 2019-04-19 13:20:16
+ * @LastEditTime: 2019-04-22 16:21:51
  */
 
 import 'package:flutter/material.dart';
@@ -74,18 +74,23 @@ class _CandlePainter extends CustomPainter {
       Market market = listData[i];
       // 画笔
       Color painterColor;
+      PaintingStyle paintingStyle;
       if (market.open > market.close) {
         painterColor = decreaseColor;
+        paintingStyle = PaintingStyle.stroke;
       } else if (market.open == market.close) {
         painterColor = Colors.white;
+        paintingStyle = PaintingStyle.fill;
       } else {
         painterColor = increaseColor;
+        paintingStyle = PaintingStyle.fill;
       }
       candlestickPaint = Paint()
         ..color = painterColor
         ..strokeWidth = wickWidth
         ..isAntiAlias = true
-        ..filterQuality = FilterQuality.high;
+        ..filterQuality = FilterQuality.high
+        ..style = paintingStyle;
 
       // 绘制烛台
       int j = listData.length - 1 - i;
@@ -107,8 +112,10 @@ class _CandlePainter extends CustomPainter {
           height - (market.low - priceMin) * heightPriceOffset + topMargin;
       double high =
           height - (market.high - priceMin) * heightPriceOffset + topMargin;
+      // print('candlestickWidth : $candlestickWidth');   
       double candlestickCenterX =
-          candlestickLeft + candlestickWidth / 2 - wickWidth / 2;
+          candlestickLeft + candlestickWidth.ceilToDouble() / 2.0 - wickWidth.ceilToDouble() / 2.0;
+      print('candlestickWidth : $candlestickWidth candlestickCenterX : $candlestickCenterX');
       Offset highBottomOffset = Offset(candlestickCenterX, candlestickTop);
       Offset highTopOffset = Offset(candlestickCenterX, high);
       Offset lowBottomOffset = Offset(candlestickCenterX, candlestickBottom);

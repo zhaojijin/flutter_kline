@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 16:45:21
- * @LastEditTime: 2019-04-19 13:18:02
+ * @LastEditTime: 2019-04-22 16:16:07
  */
 
 import 'package:flutter/material.dart';
@@ -17,8 +17,10 @@ const double kWickWidth = 1.0;
 const double kCandlestickGap = 2.0;
 /// 上影线上方距离
 const double kTopMargin = 20.0;
-const Color kIncreaseColor = Color(0xff47967F);
-const Color kDecreaseColor = Color(0xffBF5466);
+const Color kIncreaseColor = Color(0xffff4400);
+const Color kDecreaseColor = Colors.green;
+// const Color kIncreaseColor = Color(0xff47967F);
+// const Color kDecreaseColor = Color(0xffBF5466);
 const Color kBackgroundColor = Color(0xff131C2C);
 
 /**********************************交易量相关配置**********************************/
@@ -30,9 +32,11 @@ const double kColumnarTopMargin = 12.0;
 
 /**********************************网格相关配置**********************************/
 /// 网格线颜色
-const Color kGridLineColor = Color(0xff263347);
+const Color kGridLineColor = Colors.blueGrey;
 const Color kGridTextColor = Color(0xff7287A5);
-const double kGridLineWidth = 0.4;
+// const Color kGridLineColor = Color(0xff263347);
+// const Color kGridTextColor = Color(0xff7287A5);
+const double kGridLineWidth = 0.5;
 const double kGridPriceFontSize = 10;
 const int kGridRowCount = 4;
 const int kGridColumCount = 5;
