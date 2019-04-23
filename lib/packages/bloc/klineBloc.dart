@@ -15,19 +15,23 @@ import 'package:flutter_kline/packages/model/klineConstrants.dart';
 import 'package:rxdart/rxdart.dart';
 
 class KlineBloc extends KlineBlocBase {
+  // 总数据的流入流出
   BehaviorSubject<List<Market>> _klineListSubject =
       BehaviorSubject<List<Market>>();
-  PublishSubject<List<Market>> _klineCurrentListSubject =
-      PublishSubject<List<Market>>();
-
-  // 总数据的流入流出
   Sink<List<Market>> get _klineListSink => _klineListSubject.sink;
   Stream<List<Market>> get klineListStream => _klineListSubject.stream;
 
   // 当前数据的流入流出
+  PublishSubject<List<Market>> _klineCurrentListSubject =
+      PublishSubject<List<Market>>();
   Sink<List<Market>> get _currentKlineListSink => _klineCurrentListSubject.sink;
   Stream<List<Market>> get currentKlineListStream =>
       _klineCurrentListSubject.stream;
+
+  // 点击获取单条k线数据
+  PublishSubject<Market> _klineMarketSubject = PublishSubject<Market>();
+  Sink<Market> get _klineMarketSink => _klineMarketSubject.sink;
+  Stream<Market> get klineMarketStream => _klineMarketSubject.stream;
 
   /// 单屏显示的kline数据
   List<Market> klineCurrentList = List();
@@ -41,8 +45,10 @@ class KlineBloc extends KlineBlocBase {
   double volumeMax;
   int firstScreenCandleCount;
   double candlestickWidth = kCandlestickWidth;
+
   /// 当前K线滑到的起点位置
   int fromIndex;
+
   /// 当前K线滑到的终点位置
   int toIndex;
 
@@ -56,6 +62,7 @@ class KlineBloc extends KlineBlocBase {
   void dispose() {
     _klineListSubject.close();
     _klineCurrentListSubject.close();
+    _klineMarketSubject.close();
   }
 
   void updateDataList(List<KlineDataModel> dataList) {
@@ -66,38 +73,41 @@ class KlineBloc extends KlineBlocBase {
             Market(item.open, item.high, item.low, item.close, item.vol);
         klineTotalList.add(data);
       }
-      klineTotalList = KlineDataManager.calculateKlineData(YKChartType.MA, klineTotalList);
+      klineTotalList =
+          KlineDataManager.calculateKlineData(YKChartType.MA, klineTotalList);
       // klineTotalList = [klineTotalList.first];
       _klineListSink.add(klineTotalList);
     }
   }
 
   void setCandlestickWidth(double scaleWidth) {
-      if (scaleWidth > 25 || scaleWidth < 2) {
-        return;
-      }
-      candlestickWidth = scaleWidth;
+    if (scaleWidth > 25 || scaleWidth < 2) {
+      return;
+    }
+    candlestickWidth = scaleWidth;
   }
 
   int getSingleScreenCandleCount(double width) {
     screenWidth = width;
-    double count = (screenWidth - kCandlestickGap) / (candlestickWidth + kCandlestickGap);
+    double count =
+        (screenWidth - kCandlestickGap) / (candlestickWidth + kCandlestickGap);
     int totalScreenCountNum = count.toInt();
     return totalScreenCountNum;
   }
 
   double getFirstScreenScale() {
-    return (kGridColumCount-1)/kGridColumCount;
+    return (kGridColumCount - 1) / kGridColumCount;
   }
 
   void setScreenWidth(double width) {
     screenWidth = width;
-    int  singleScreenCandleCount = getSingleScreenCandleCount(screenWidth);
+    int singleScreenCandleCount = getSingleScreenCandleCount(screenWidth);
     int maxCount = this.klineTotalList.length;
-    int firstScreenNum = (getFirstScreenScale() * singleScreenCandleCount).toInt(); 
+    int firstScreenNum =
+        (getFirstScreenScale() * singleScreenCandleCount).toInt();
     if (singleScreenCandleCount > maxCount) {
       firstScreenNum = maxCount;
-    } 
+    }
     firstScreenCandleCount = firstScreenNum;
 
     getSubKlineList(0, firstScreenCandleCount);
@@ -142,6 +152,12 @@ class KlineBloc extends KlineBlocBase {
 
       // print('priceMax : $priceMax');
       // print('priceMax : $priceMax priceMin: $priceMin volumeMax: $volumeMax');
+    }
+  }
+
+  void marketSinkAdd(Market market) {
+    if (market != null) {
+      _klineMarketSink.add(market);
     }
   }
 }

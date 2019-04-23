@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 16:45:21
- * @LastEditTime: 2019-04-22 16:16:07
+ * @LastEditTime: 2019-04-23 15:20:24
  */
 
 import 'package:flutter/material.dart';
@@ -17,8 +17,8 @@ const double kWickWidth = 1.0;
 const double kCandlestickGap = 2.0;
 /// 上影线上方距离
 const double kTopMargin = 20.0;
-const Color kIncreaseColor = Color(0xffff4400);
-const Color kDecreaseColor = Colors.green;
+const Color kDecreaseColor = Color(0xffff4400);
+const Color kIncreaseColor = Colors.green;
 // const Color kIncreaseColor = Color(0xff47967F);
 // const Color kDecreaseColor = Color(0xffBF5466);
 const Color kBackgroundColor = Color(0xff131C2C);
@@ -50,6 +50,14 @@ const Color kMa5LineColor = Color(0xffF1DB9D);
 const Color kMa10LineColor = Color(0xff81CEBF);
 const Color kMa20LineColor = Color(0xffC097F6);
 
+/********************************十字交叉线相关配置********************************/
+///
+const Color kCrossHLineColor = Colors.white;
+const Color kCrossVLineColor = Colors.white12;
+const Color kCrossPointColor = Colors.white;
+const double kCrossHLineWidth = 0.5;
+const double kCrossVLineWidth = kCandlestickGap;
+const double kCrossPointRadius = 2.0;
 
 enum YKViewType {
   Kline,

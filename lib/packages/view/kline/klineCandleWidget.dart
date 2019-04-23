@@ -115,7 +115,9 @@ class _CandlePainter extends CustomPainter {
       // print('candlestickWidth : $candlestickWidth');   
       double candlestickCenterX =
           candlestickLeft + candlestickWidth.ceilToDouble() / 2.0 - wickWidth.ceilToDouble() / 2.0;
-      print('candlestickWidth : $candlestickWidth candlestickCenterX : $candlestickCenterX');
+      // print('candlestickWidth : $candlestickWidth candlestickCenterX : $candlestickCenterX');
+      double closeOffsetY = height - (market.close - priceMin) *heightPriceOffset + topMargin;
+      market.offset = Offset(candlestickCenterX, closeOffsetY);
       Offset highBottomOffset = Offset(candlestickCenterX, candlestickTop);
       Offset highTopOffset = Offset(candlestickCenterX, high);
       Offset lowBottomOffset = Offset(candlestickCenterX, candlestickBottom);
