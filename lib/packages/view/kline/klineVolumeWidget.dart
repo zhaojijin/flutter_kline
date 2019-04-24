@@ -20,6 +20,7 @@ class KlineVolumeWidget extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<List<Market>> snapshot) {
         // List<Market> listData =  ?? [Market(0, 0, 0, 0, 0)];
         return CustomPaint(
+          key: bloc.volumeWidgetKey,
           size: Size.infinite,
           painter: _KlineVolumePainter(
               snapshot.data, bloc.volumeMax, bloc.candlestickWidth),

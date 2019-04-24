@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 14:30:22
- * @LastEditTime: 2019-04-22 23:59:30
+ * @LastEditTime: 2019-04-23 17:26:46
  */
 
 import 'package:flutter/material.dart';
@@ -24,6 +24,9 @@ class Market {
 
   // 十字交叉点
   Offset offset;
+  double candleWidgetOriginY;
+  double candleWidgetHeight;
+
   bool isShowCandleInfo;
   // ['时间', '开', '高', '低', '收', '涨跌额', '涨跌幅', '成交量'];
   List<String> candleInfo() {
@@ -35,7 +38,7 @@ class Market {
     } else if (limitUpDownAmount > 0) {
       pre = '+';
     }
-    String limitPercentStr = '$pre${limitUpDownPercent.toStringAsPrecision(kGridPricePrecision)}%';
+    String limitPercentStr = '$pre${limitUpDownPercent.toStringAsFixed(2)}%';
     return ['xxx',
     open.toStringAsPrecision(kGridPricePrecision),
     high.toStringAsPrecision(kGridPricePrecision),

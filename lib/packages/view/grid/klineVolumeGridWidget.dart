@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 17:57:47
- * @LastEditTime: 2019-04-19 16:56:34
+ * @LastEditTime: 2019-04-23 22:14:06
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBloc.dart';
@@ -37,9 +37,6 @@ class _VolumeGridPainter extends CustomPainter {
   final double lineWidth = kGridLineWidth;
   @override
   void paint(Canvas canvas, Size size) {
-    if (maxVolume == null) {
-      return;
-    }
     double height = size.height;
     double width = size.width;
     Paint linePaint = Paint()
@@ -54,6 +51,9 @@ class _VolumeGridPainter extends CustomPainter {
     for (int i = 1; i < kGridColumCount; i++) {
       canvas.drawLine(Offset(i * widthOffset, 0),
           Offset(i * widthOffset, height), linePaint);
+    }
+    if (maxVolume == null) {
+      return;
     }
     // 绘制当前最大值
     double orginX =
@@ -79,6 +79,6 @@ class _VolumeGridPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+    return maxVolume != null;
   }
 }

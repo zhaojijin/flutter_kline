@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-22 17:15:14
- * @LastEditTime: 2019-04-23 00:16:23
+ * @LastEditTime: 2019-04-24 14:39:39
  */
 
 import 'dart:ui';
@@ -19,7 +19,7 @@ class KlineCandleCrossWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     KlineBloc bloc = KlineBlocProvider.of<KlineBloc>(context);
     return StreamBuilder(
-      stream: bloc.klineMarketStream ,
+      stream: bloc.klineMarketStream,
       builder: (BuildContext context, AsyncSnapshot<Market> snapshot){
         Market market = snapshot.data;
         return market == null ? Container() : market.isShowCandleInfo ?  CustomPaint(
@@ -46,24 +46,26 @@ class _KlineCandleCrossPainter extends CustomPainter {
     if (market == null ) {
       return;
     }
+    double originY = market.candleWidgetOriginY;
     Paint paintH = Paint()
     ..color = crossHLineColor
     ..strokeWidth = crossHLineWidth; 
     // 画横线 
-    canvas.drawLine(Offset(0, market.offset.dy), Offset(size.width, market.offset.dy), paintH);
+    canvas.drawLine(Offset(0, market.offset.dy + originY), Offset(size.width, market.offset.dy + originY), paintH);
 
     Paint paintV = Paint()
     ..color = crossVLineColor
     ..strokeWidth = crossVLineWidth; 
+    
     // 画竖线 
-    canvas.drawLine(Offset(market.offset.dx, 0), Offset(market.offset.dx, size.height), paintV);
-
+    canvas.drawLine(Offset(market.offset.dx, originY), Offset(market.offset.dx, market.candleWidgetHeight + originY), paintV);
+    
     // 画点
     Paint pointPaint = Paint()
     ..color = crossPointColor; 
-    canvas.drawCircle(market.offset, crossPointRadius, pointPaint);
-    // 画框
-    // canvas.draw
+    Offset realOffset = Offset(market.offset.dx, market.offset.dy + originY);
+    canvas.drawCircle(realOffset, crossPointRadius, pointPaint);
+
   }
 
   @override

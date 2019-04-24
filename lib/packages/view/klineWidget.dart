@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-18 13:54:54
- * @LastEditTime: 2019-04-22 23:44:45
+ * @LastEditTime: 2019-04-24 15:16:41
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/model/klineConstrants.dart';
@@ -12,21 +12,21 @@ import 'package:flutter_kline/packages/view/grid/klineVolumeGridWidget.dart';
 import 'package:flutter_kline/packages/view/kline/klineCandleCrossWidget.dart';
 import 'package:flutter_kline/packages/view/kline/klineCandleInfoWidget.dart';
 import 'package:flutter_kline/packages/view/kline/klineCandleWidget.dart';
+import 'package:flutter_kline/packages/view/kline/klineLoadingWidget.dart';
 import 'package:flutter_kline/packages/view/kline/klineMaLineWidget.dart';
+import 'package:flutter_kline/packages/view/kline/klinePeriodSwitch.dart';
 import 'package:flutter_kline/packages/view/kline/klineVolumeWidget.dart';
 
 class KlineWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double width = (screenWidth / 3).ceilToDouble();
-    double height = 150;
     return Container(
-      color: Colors.black,
+      color: kBackgroundColor,
       child: Stack(
         children: <Widget>[
           Column(
             children: <Widget>[
+              KlinePeriodSwitchWidget(),
               Expanded(
                 child: Stack(
                   children: <Widget>[
@@ -39,7 +39,7 @@ class KlineWidget extends StatelessWidget {
                 ),
                 flex: 4,
               ),
-              SizedBox(height: 20, child: Container(color: Colors.black)),
+              SizedBox(height: 20, child: Container(color: kBackgroundColor)),
               Expanded(
                 child: Stack(
                   children: <Widget>[
@@ -52,12 +52,8 @@ class KlineWidget extends StatelessWidget {
             ],
           ),
           KlineCandleCrossWidget(),
-          Container(
-            width: width,
-            height: height,
-            margin: EdgeInsets.only(top: 10,left: 10),
-            child: KlineCandleInfoWidget(),
-          ),
+          KlineCandleInfoWidget(),
+          Center(child: KlineLoadingWidget(),)
         ],
       ),
     );

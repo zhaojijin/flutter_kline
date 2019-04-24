@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-16 11:08:20
- * @LastEditTime: 2019-04-23 15:05:39
+ * @LastEditTime: 2019-04-24 15:17:30
  */
 import 'dart:math';
 
@@ -15,9 +15,9 @@ import 'package:flutter_kline/packages/model/klineConstrants.dart';
 import 'package:flutter_kline/packages/model/klineModel.dart';
 import 'package:flutter_kline/packages/view/klineWidget.dart';
 
-class KlinePage extends StatelessWidget {
+class KlinePageWidget extends StatelessWidget {
   final KlineBloc bloc;
-  KlinePage({Key key, @required this.bloc}) : super(key: key);
+  KlinePageWidget(this.bloc);
   @override
   Widget build(BuildContext context) {
     Offset lastPoint;
@@ -39,12 +39,21 @@ class KlinePage extends StatelessWidget {
         return;
       }
       int index = bloc.klineCurrentList.length - 1 - offsetCount;
-      // print(
-          // 'offsetCount :$offsetCount index :$index length: ${bloc.klineCurrentList.length}');
+   
       if (index < bloc.klineCurrentList.length) {
         Market market = bloc.klineCurrentList[index];
-        // market.printDesc();
         market.isShowCandleInfo = true;
+        RenderBox candleWidgetRenderBox = bloc.candleWidgetKey.currentContext.findRenderObject();
+        Offset candleWidgetOriginOffset = candleWidgetRenderBox.localToGlobal(Offset.zero);
+
+        RenderBox currentWidgetRenderBox = context.findRenderObject();
+        Offset currentWidgetOriginOffset = currentWidgetRenderBox.localToGlobal(Offset.zero);
+        
+        RenderBox volumeWidgetRenderBox = context.findRenderObject();
+        Offset volumeWidgetOriginOffset = currentWidgetRenderBox.localToGlobal(Offset.zero);
+
+        market.candleWidgetOriginY = candleWidgetOriginOffset.dy-currentWidgetOriginOffset.dy;
+        market.candleWidgetHeight = volumeWidgetOriginOffset.dy + volumeWidgetRenderBox.size.height;
         bloc.marketSinkAdd(market);
       }
     }
@@ -59,6 +68,7 @@ class KlinePage extends StatelessWidget {
       if (isScale || isLongPress) {
         return;
       }
+      isHorizontalDrag = true;
       double offsetX = offset.dx - lastPoint.dx;
       int singleScreenCandleCount = bloc.getSingleScreenCandleCount(screenWidth);
       // 当前偏移的个数
@@ -94,9 +104,6 @@ class KlinePage extends StatelessWidget {
       if (isHorizontalDrag || isLongPress) {
         return;
       }
-      // if ((scale-1).abs() > 0.02) {
-      //   scale += 0.02;
-      // }
       isScale = true;
       if (scale > 1 && (scale - 1) > 0.03) {
         scale = 1.03;
@@ -138,13 +145,8 @@ class KlinePage extends StatelessWidget {
         
         /// 水平拖拽
         onHorizontalDragDown: (horizontalDragDown) {
-          isHorizontalDrag = true;
           lastPoint = horizontalDragDown.globalPosition;
         },
-        // onHorizontalDragStart: (details) {
-        //   isHorizontalDrag = true;
-        //   lastPoint = details.globalPosition;
-        // },
         onHorizontalDragUpdate: (details) {
           _horizontalDrag(details.globalPosition);
         },
@@ -154,7 +156,9 @@ class KlinePage extends StatelessWidget {
         onHorizontalDragCancel: () {
           isHorizontalDrag = false;
         },
-
+        onScaleStart: (_) {
+          isScale = true;
+        },
         /// 缩放
         onScaleUpdate: (details) {
           _scaleUpdate(details.scale);
@@ -162,7 +166,7 @@ class KlinePage extends StatelessWidget {
         onScaleEnd: (_) {
           isScale = false;
         },
-
+        
         child: StreamBuilder(
           stream: bloc.klineListStream,
           builder:
@@ -171,7 +175,7 @@ class KlinePage extends StatelessWidget {
             if (listData != null) {
               bloc.setScreenWidth(screenWidth);
             }
-            return KlineWidget();
+            return Container(child: KlineWidget(),height: 150,);
           },
         ),
       ),

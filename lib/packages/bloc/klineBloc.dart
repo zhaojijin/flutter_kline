@@ -7,6 +7,7 @@
  */
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBlocProvider.dart';
 import 'package:flutter_kline/packages/manager/klineDataManager.dart';
 import 'package:flutter_kline/packages/model/klineDataModel.dart';
@@ -33,9 +34,18 @@ class KlineBloc extends KlineBlocBase {
   Sink<Market> get _klineMarketSink => _klineMarketSubject.sink;
   Stream<Market> get klineMarketStream => _klineMarketSubject.stream;
 
+  // periodSwitch
+  PublishSubject<String> _klinePeriodSwitchSubject = PublishSubject<String>();
+  Sink<String> get _klinePeriodSwitchSink => _klinePeriodSwitchSubject.sink;
+  Stream<String> get _klinePeriodSwitchStream => _klinePeriodSwitchSubject.stream;
+
+  // showloading
+  PublishSubject<bool> _klineShowLoadingSubject = PublishSubject<bool>();
+  Sink<bool> get _klineShowLoadingSink => _klineShowLoadingSubject.sink;
+  Stream<bool> get klineShowLoadingStream => _klineShowLoadingSubject.stream;
+
   /// 单屏显示的kline数据
   List<Market> klineCurrentList = List();
-
   /// 总数据
   List<Market> klineTotalList = List();
 
@@ -46,6 +56,9 @@ class KlineBloc extends KlineBlocBase {
   int firstScreenCandleCount;
   double candlestickWidth = kCandlestickWidth;
 
+  GlobalKey candleWidgetKey = GlobalKey();
+  GlobalKey volumeWidgetKey = GlobalKey();
+
   /// 当前K线滑到的起点位置
   int fromIndex;
 
@@ -54,8 +67,9 @@ class KlineBloc extends KlineBlocBase {
 
   KlineBloc() {
     initData();
+    _klinePeriodSwitchStream.listen(periodSwitch);
   }
-
+  void periodSwitch(String period) {}
   void initData() {}
 
   @override
@@ -63,6 +77,8 @@ class KlineBloc extends KlineBlocBase {
     _klineListSubject.close();
     _klineCurrentListSubject.close();
     _klineMarketSubject.close();
+    _klinePeriodSwitchSubject.close();
+    _klineShowLoadingSubject.close();
   }
 
   void updateDataList(List<KlineDataModel> dataList) {
@@ -158,6 +174,17 @@ class KlineBloc extends KlineBlocBase {
   void marketSinkAdd(Market market) {
     if (market != null) {
       _klineMarketSink.add(market);
+    }
+  }
+  void periodSwitchSinkAdd(String period) {
+    if (period != null) {
+      _klinePeriodSwitchSink.add(period);
+    }
+  }
+
+  void showLoadingSinkAdd(bool show) {
+    if (show != null) {
+    _klineShowLoadingSink.add(show);
     }
   }
 }
