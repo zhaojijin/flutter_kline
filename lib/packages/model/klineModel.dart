@@ -25,7 +25,7 @@ class Market {
   // 十字交叉点
   Offset offset;
   double candleWidgetOriginY;
-  double candleWidgetHeight;
+  double gridTotalHeight;
 
   bool isShowCandleInfo;
   // ['时间', '开', '高', '低', '收', '涨跌额', '涨跌幅', '成交量'];

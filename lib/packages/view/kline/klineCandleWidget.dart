@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-18 12:44:49
- * @LastEditTime: 2019-04-24 15:29:47
+ * @LastEditTime: 2019-04-25 17:28:56
  */
 
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class KlineCandleWidget extends StatelessWidget {
         // List<Market> listData =  ?? [Market(0, 0, 0, 0, 0)];
         return CustomPaint(
           key: bloc.candleWidgetKey,
-          size: Size.infinite,
+          size: Size(bloc.screenWidth, bloc.screenWidth / kcandleAspectRatio),
           painter: _CandlePainter(snapshot.data, bloc.priceMax, bloc.priceMin,
               bloc.candlestickWidth),
         );
@@ -61,7 +61,7 @@ class _CandlePainter extends CustomPainter {
     Paint linePaint = Paint()
       .. color = Colors.black
       ..blendMode = BlendMode.colorBurn
-      ..strokeWidth = 2;
+      ..strokeWidth = 0.5;
     canvas.drawLine(Offset(0,0), Offset(size.width,0), linePaint);
     if (listData == null || priceMax == null || priceMin == null) {
       return;

@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-16 10:21:10
- * @LastEditTime: 2019-04-24 15:23:06
+ * @LastEditTime: 2019-04-25 17:24:41
  */
 
 import 'package:flutter/cupertino.dart';
@@ -58,15 +58,39 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () {
               Navigator.push(context, CupertinoPageRoute(builder: (context) {
                 return Scaffold(
-                  appBar: CupertinoNavigationBar(
-                    middle: Text('BTC-USDT'),
-                  ),
-                  body: Container(
-                    // margin: EdgeInsets.only(bottom: 34),
-                    height: 500,
-                    child: KlinePageWidget(bloc),
-                  ),
-                );
+                    appBar: CupertinoNavigationBar(
+                      padding: EdgeInsetsDirectional.only(start: 0),
+                      leading: CupertinoButton(
+                        padding: EdgeInsets.all(0),
+                        child: Icon(Icons.arrow_back,color: Colors.white,),
+                        onPressed: () {
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
+                        },
+                      ),
+                      middle: Text('BTC-USDT',style: TextStyle(color: Colors.white),),
+                      backgroundColor: kBackgroundColor,
+                    ),
+                    body: Container(
+                      color: kBackgroundColor,
+                      child: ListView(
+                        children: <Widget>[
+                          KlinePageWidget(bloc),
+                          Center(
+                          
+                            child: Container(
+                              
+                              margin: EdgeInsets.only(top: 20),
+                              child: Text(
+                              '财富自由，一站拥有',
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.blueGrey),
+                              ),
+                            ))
+                        ],
+                      ),
+                    ));
               }));
             },
           ),
@@ -100,12 +124,14 @@ class KlinePageBloc extends KlineBloc {
     _getData(period);
     super.periodSwitch(period);
   }
+
   @override
   void initData() {
     _getData('1day');
     super.initData();
   }
-   _getData(String period) {
+
+  _getData(String period) {
     this.showLoadingSinkAdd(true);
     Future<String> future = getIPAddress('$period');
     future.then((result) {
@@ -114,17 +140,15 @@ class KlinePageBloc extends KlineBloc {
       List<KlineDataModel> list = List<KlineDataModel>();
       for (var item in marketData.data) {
         list.add(KlineDataModel(
-          open: item.open,
-          close: item.close,
-          high: item.high,
-          low: item.low,
-          vol: item.vol,
-          id: item.id
-        ));
+            open: item.open,
+            close: item.close,
+            high: item.high,
+            low: item.low,
+            vol: item.vol,
+            id: item.id));
       }
       this.showLoadingSinkAdd(false);
       this.updateDataList(list);
     });
   }
-    
 }

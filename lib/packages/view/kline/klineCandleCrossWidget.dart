@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-22 17:15:14
- * @LastEditTime: 2019-04-24 14:39:39
+ * @LastEditTime: 2019-04-25 10:45:28
  */
 
 import 'dart:ui';
@@ -23,7 +23,7 @@ class KlineCandleCrossWidget extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<Market> snapshot){
         Market market = snapshot.data;
         return market == null ? Container() : market.isShowCandleInfo ?  CustomPaint(
-          size: Size.infinite,
+          size: Size(bloc.screenWidth, market?.gridTotalHeight),
           painter: _KlineCandleCrossPainter(snapshot.data,bloc.candlestickWidth),
         ) : Container();
       },
@@ -58,8 +58,8 @@ class _KlineCandleCrossPainter extends CustomPainter {
     ..strokeWidth = crossVLineWidth; 
     
     // 画竖线 
-    canvas.drawLine(Offset(market.offset.dx, originY), Offset(market.offset.dx, market.candleWidgetHeight + originY), paintV);
-    
+    canvas.drawLine(Offset(market.offset.dx, originY), Offset(market.offset.dx, market.gridTotalHeight + originY), paintV);
+    print(market.gridTotalHeight);
     // 画点
     Paint pointPaint = Paint()
     ..color = crossPointColor; 

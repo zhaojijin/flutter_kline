@@ -1,26 +1,21 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-16 16:45:21
- * @LastEditTime: 2019-04-24 15:11:30
+ * @LastEditTime: 2019-04-25 17:32:33
  */
 
 import 'package:flutter/material.dart';
 
 /********************************kline切换相关配置********************************/
 ///
-const String k1min = '1min';
-const String k5min = '5min';
-const String k15min = '15min';
-const String k30min = '30min';
-const String k60min = '60min';
-const String k1day = '1day';
-const String k1mon = '1mon';
-const String k1week = '1week';
-const String k1year = '1year';
 const double kPeriodHeight = 40;
-
+const double kPeriodAspectRatio = 375/kPeriodHeight;
+const String kDefaultPeriod = '1day';
+const List<String> kPeriodList = ['1min', '5min', '15min', '30min', '60min', '1day'];
+const List<String> kPeriodTitleList = ['1分', '5分', '15分', '30分', '1小时', '日线'];
+const kDefaultPeriodIndex = 5;
 /**********************************kline相关配置**********************************/
 /// 烛台宽度
 const double kCandlestickWidth = 7.0;
@@ -33,13 +28,15 @@ const double kTopMargin = 30.0;
 const Color kDecreaseColor = Color(0xffff4400);
 const Color kIncreaseColor = Colors.green;
 const Color kBackgroundColor = Color(0xff111825);
+const double kcandleAspectRatio = 1;
 
 /**********************************交易量相关配置**********************************/
 /// 柱状体宽度
 const double kColumnarWidth = kCandlestickWidth;
 /// 柱状体之间间隙 = 烛台间空隙
 const double kColumnarGap = kCandlestickGap;
-const double kColumnarTopMargin = 12.0;
+const double kColumnarTopMargin = 32.0;
+const double kVolumeAspectRatio = 1/0.25;
 
 /**********************************网格相关配置**********************************/
 /// 网格线颜色
@@ -50,6 +47,7 @@ const double kGridPriceFontSize = 10;
 const int kGridRowCount = 4;
 const int kGridColumCount = 5;
 const int kGridPricePrecision = 7;
+const double kColumnTopMargin = 20.0;
 
 /**********************************MA线相关配置**********************************/
 /// Ma线宽度

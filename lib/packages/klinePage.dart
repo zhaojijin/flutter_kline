@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-16 11:08:20
- * @LastEditTime: 2019-04-24 15:17:30
+ * @LastEditTime: 2019-04-25 10:31:04
  */
 import 'dart:math';
 
@@ -30,7 +30,8 @@ class KlinePageWidget extends StatelessWidget {
         return;
       }
       isLongPress = true;
-      int singleScreenCandleCount = bloc.getSingleScreenCandleCount(screenWidth);
+      int singleScreenCandleCount =
+          bloc.getSingleScreenCandleCount(screenWidth);
       int offsetCount =
           ((offset.dx / screenWidth) * singleScreenCandleCount).toInt();
       print(
@@ -39,21 +40,25 @@ class KlinePageWidget extends StatelessWidget {
         return;
       }
       int index = bloc.klineCurrentList.length - 1 - offsetCount;
-   
+
       if (index < bloc.klineCurrentList.length) {
         Market market = bloc.klineCurrentList[index];
         market.isShowCandleInfo = true;
-        RenderBox candleWidgetRenderBox = bloc.candleWidgetKey.currentContext.findRenderObject();
-        Offset candleWidgetOriginOffset = candleWidgetRenderBox.localToGlobal(Offset.zero);
+        RenderBox candleWidgetRenderBox =
+            bloc.candleWidgetKey.currentContext.findRenderObject();
+        Offset candleWidgetOriginOffset =
+            candleWidgetRenderBox.localToGlobal(Offset.zero);
 
         RenderBox currentWidgetRenderBox = context.findRenderObject();
-        Offset currentWidgetOriginOffset = currentWidgetRenderBox.localToGlobal(Offset.zero);
-        
-        RenderBox volumeWidgetRenderBox = context.findRenderObject();
-        Offset volumeWidgetOriginOffset = currentWidgetRenderBox.localToGlobal(Offset.zero);
+        Offset currentWidgetOriginOffset =
+            currentWidgetRenderBox.localToGlobal(Offset.zero);
 
-        market.candleWidgetOriginY = candleWidgetOriginOffset.dy-currentWidgetOriginOffset.dy;
-        market.candleWidgetHeight = volumeWidgetOriginOffset.dy + volumeWidgetRenderBox.size.height;
+        RenderBox volumeWidgetRenderBox = bloc.volumeWidgetKey.currentContext.findRenderObject();
+
+        market.candleWidgetOriginY =
+            candleWidgetOriginOffset.dy - currentWidgetOriginOffset.dy;
+        market.gridTotalHeight = candleWidgetRenderBox.size.height + volumeWidgetRenderBox.size.height;
+        print('${candleWidgetRenderBox.size} ${volumeWidgetRenderBox.size}');
         bloc.marketSinkAdd(market);
       }
     }
@@ -70,7 +75,8 @@ class KlinePageWidget extends StatelessWidget {
       }
       isHorizontalDrag = true;
       double offsetX = offset.dx - lastPoint.dx;
-      int singleScreenCandleCount = bloc.getSingleScreenCandleCount(screenWidth);
+      int singleScreenCandleCount =
+          bloc.getSingleScreenCandleCount(screenWidth);
       // 当前偏移的个数
       int offsetCount =
           ((offsetX / screenWidth) * singleScreenCandleCount).toInt();
@@ -89,7 +95,7 @@ class KlinePageWidget extends StatelessWidget {
         }
         int fromIndex = 0;
         print('fromIndex: $fromIndex');
-        
+
         // 如果当前偏移的个数 没有达到一屏所展示的个数则从0开始取数据
         if (currentOffsetCount > singleScreenCandleCount) {
           fromIndex = (currentOffsetCount - singleScreenCandleCount);
@@ -142,7 +148,7 @@ class KlinePageWidget extends StatelessWidget {
           _hiddenCrossWidget();
           print('onLongPressDragUp');
         },
-        
+
         /// 水平拖拽
         onHorizontalDragDown: (horizontalDragDown) {
           lastPoint = horizontalDragDown.globalPosition;
@@ -159,6 +165,7 @@ class KlinePageWidget extends StatelessWidget {
         onScaleStart: (_) {
           isScale = true;
         },
+
         /// 缩放
         onScaleUpdate: (details) {
           _scaleUpdate(details.scale);
@@ -166,7 +173,7 @@ class KlinePageWidget extends StatelessWidget {
         onScaleEnd: (_) {
           isScale = false;
         },
-        
+
         child: StreamBuilder(
           stream: bloc.klineListStream,
           builder:
@@ -175,7 +182,7 @@ class KlinePageWidget extends StatelessWidget {
             if (listData != null) {
               bloc.setScreenWidth(screenWidth);
             }
-            return Container(child: KlineWidget(),height: 150,);
+            return KlineWidget();
           },
         ),
       ),

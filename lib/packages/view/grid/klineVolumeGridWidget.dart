@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-16 17:57:47
- * @LastEditTime: 2019-04-23 22:14:06
+ * @LastEditTime: 2019-04-25 17:30:41
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBloc.dart';
@@ -35,6 +35,7 @@ class _VolumeGridPainter extends CustomPainter {
   );
   final Color lineColor = kGridLineColor;
   final double lineWidth = kGridLineWidth;
+  final double columnTopMargin = kColumnTopMargin;
   @override
   void paint(Canvas canvas, Size size) {
     double height = size.height;
@@ -45,11 +46,12 @@ class _VolumeGridPainter extends CustomPainter {
       ..isAntiAlias = true
       ..filterQuality = FilterQuality.high;
     // 绘制横线
-    canvas.drawLine(Offset(0, 0), Offset(width, 0), linePaint);
+    canvas.drawLine(Offset(0, columnTopMargin), Offset(width, columnTopMargin), linePaint);
+    canvas.drawLine(Offset(0, height), Offset(width, height), linePaint);
     // 绘制竖线
     double widthOffset = (width ~/ kGridColumCount).toDouble();
     for (int i = 1; i < kGridColumCount; i++) {
-      canvas.drawLine(Offset(i * widthOffset, 0),
+      canvas.drawLine(Offset(i * widthOffset, columnTopMargin),
           Offset(i * widthOffset, height), linePaint);
     }
     if (maxVolume == null) {
@@ -58,7 +60,7 @@ class _VolumeGridPainter extends CustomPainter {
     // 绘制当前最大值
     double orginX =
         width - maxVolume.toStringAsPrecision(kGridPricePrecision).length * 6;
-    _drawText(canvas, Offset(orginX, 0),
+    _drawText(canvas, Offset(orginX, columnTopMargin),
         maxVolume.toStringAsPrecision(kGridPricePrecision));
   }
 

@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-18 15:21:47
- * @LastEditTime: 2019-04-19 16:49:45
+ * @LastEditTime: 2019-04-25 11:54:24
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBloc.dart';
@@ -18,10 +18,9 @@ class KlineVolumeWidget extends StatelessWidget {
     return StreamBuilder(
       stream: bloc.currentKlineListStream,
       builder: (BuildContext context, AsyncSnapshot<List<Market>> snapshot) {
-        // List<Market> listData =  ?? [Market(0, 0, 0, 0, 0)];
         return CustomPaint(
           key: bloc.volumeWidgetKey,
-          size: Size.infinite,
+          size: Size(bloc.screenWidth, bloc.screenWidth / kVolumeAspectRatio),
           painter: _KlineVolumePainter(
               snapshot.data, bloc.volumeMax, bloc.candlestickWidth),
         );

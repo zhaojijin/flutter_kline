@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-18 16:48:38
- * @LastEditTime: 2019-04-19 17:07:17
+ * @LastEditTime: 2019-04-25 11:47:15
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBloc.dart';
@@ -25,7 +25,7 @@ class KlineMaLineWidget extends StatelessWidget {
           listData = snapshot.data;
         }
         return CustomPaint(
-          size: Size.infinite,
+          size: Size(bloc.screenWidth, bloc.screenWidth / kcandleAspectRatio),
           painter: _KlineMaLinePainter(listData, maType, bloc.priceMax,
               bloc.priceMin, bloc.candlestickWidth),
         );
