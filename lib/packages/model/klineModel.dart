@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-16 14:30:22
- * @LastEditTime: 2019-04-23 17:26:46
+ * @LastEditTime: 2019-04-26 10:59:13
  */
 
 import 'package:flutter/material.dart';
@@ -28,7 +28,6 @@ class Market {
   double gridTotalHeight;
 
   bool isShowCandleInfo;
-  // ['时间', '开', '高', '低', '收', '涨跌额', '涨跌幅', '成交量'];
   List<String> candleInfo() {
     double limitUpDownAmount = close-open;
     double limitUpDownPercent = (limitUpDownAmount / open) *100;
@@ -38,30 +37,18 @@ class Market {
     } else if (limitUpDownAmount > 0) {
       pre = '+';
     }
+    String limitUpDownAmountStr = '$pre${limitUpDownAmount.toStringAsPrecision(kGridPricePrecision)}';
     String limitPercentStr = '$pre${limitUpDownPercent.toStringAsFixed(2)}%';
     return ['xxx',
     open.toStringAsPrecision(kGridPricePrecision),
     high.toStringAsPrecision(kGridPricePrecision),
     low.toStringAsPrecision(kGridPricePrecision),
     close.toStringAsPrecision(kGridPricePrecision),
-    limitUpDownAmount.toStringAsPrecision(kGridPricePrecision),
+    limitUpDownAmountStr,
     limitPercentStr,
     vol.toStringAsPrecision(kGridPricePrecision)];
   }
   void printDesc() {
     print('open :$open close :$close high :$high low :$low vol :$vol offset: $offset');
   }
-}
-
-class KlineCandleModel {
-  KlineCandleModel(this.hPrice, this.lPrice, this.openPrice, this.closePrice,
-      this.time, this.volume);
-  double hPrice;
-  double lPrice;
-  double openPrice;
-  double closePrice;
-  int time;
-  double volume;
-  // 张跌幅
-
 }

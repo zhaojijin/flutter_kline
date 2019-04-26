@@ -89,10 +89,6 @@ class KlineDataManager {
         } 
       }
     }
-    // print('first :${tmpList.first.vol}');
-    for (var item in tmpList) {
-      // print('priceMa1: ${item.priceMa1}==priceMa2: ${item.priceMa2}==priceMa3: ${item.priceMa3}');
-    }
     return tmpList;
   }
 

@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-22 18:55:06
- * @LastEditTime: 2019-04-24 14:55:08
+ * @LastEditTime: 2019-04-26 11:02:21
  */
 
 import 'package:flutter/material.dart';
@@ -43,7 +43,7 @@ class KlineCandleInfoWidget extends StatelessWidget {
               padding: kCandleInfoPadding,
               itemCount: _list.length,
               itemBuilder: (BuildContext context, int index) {
-                List marketInfoList = market?.candleInfo();
+                List<String> marketInfoList = market?.candleInfo();
                 return Container(
                   child: Stack(
                     children: <Widget>[
@@ -63,7 +63,7 @@ class KlineCandleInfoWidget extends StatelessWidget {
                             : Text(
                                 '${marketInfoList[index]}',
                                 style: TextStyle(
-                                    color: kCandleInfoTextColor, fontSize: kCandleInfoRightFontSize),
+                                    color: _list[index].contains('涨') ? marketInfoList[index].contains('+') ? kIncreaseColor : kDecreaseColor : kCandleInfoTextColor, fontSize: kCandleInfoRightFontSize),
                               ),
                       ),
                     ],

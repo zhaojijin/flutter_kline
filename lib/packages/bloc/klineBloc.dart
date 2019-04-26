@@ -1,16 +1,15 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-16 15:02:34
- * @LastEditTime: 2019-04-22 14:54:47
+ * @LastEditTime: 2019-04-26 10:35:19
  */
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBlocProvider.dart';
 import 'package:flutter_kline/packages/manager/klineDataManager.dart';
-import 'package:flutter_kline/packages/model/klineDataModel.dart';
 import 'package:flutter_kline/packages/model/klineModel.dart';
 import 'package:flutter_kline/packages/model/klineConstrants.dart';
 import 'package:rxdart/rxdart.dart';
@@ -81,17 +80,11 @@ class KlineBloc extends KlineBlocBase {
     _klineShowLoadingSubject.close();
   }
 
-  void updateDataList(List<KlineDataModel> dataList) {
+  void updateDataList(List<Market> dataList) {
     if (dataList != null && dataList.length > 0) {
       klineTotalList.clear();
-      for (var item in dataList) {
-        Market data =
-            Market(item.open, item.high, item.low, item.close, item.vol);
-        klineTotalList.add(data);
-      }
       klineTotalList =
-          KlineDataManager.calculateKlineData(YKChartType.MA, klineTotalList);
-      // klineTotalList = [klineTotalList.first];
+          KlineDataManager.calculateKlineData(YKChartType.MA, dataList);
       _klineListSink.add(klineTotalList);
     }
   }

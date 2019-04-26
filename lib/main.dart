@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-16 10:21:10
- * @LastEditTime: 2019-04-25 17:24:41
+ * @LastEditTime: 2019-04-26 10:30:48
  */
 
 import 'package:flutter/cupertino.dart';
@@ -16,8 +16,6 @@ import 'package:flutter_kline/packages/model/klineConstrants.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:flutter_kline/packages/model/klineDataModel.dart';
 import 'package:flutter_kline/packages/model/klineModel.dart';
 
 import 'package:http/http.dart' as http;
@@ -137,15 +135,12 @@ class KlinePageBloc extends KlineBloc {
     future.then((result) {
       final parseJson = json.decode(result);
       MarketData marketData = MarketData.fromJson(parseJson);
-      List<KlineDataModel> list = List<KlineDataModel>();
+      List<Market> list = List<Market>();
       for (var item in marketData.data) {
-        list.add(KlineDataModel(
-            open: item.open,
-            close: item.close,
-            high: item.high,
-            low: item.low,
-            vol: item.vol,
-            id: item.id));
+        Market market =
+            Market(item.open, item.high, item.low, item.close, item.vol);
+        market.printDesc();
+        list.add(market);
       }
       this.showLoadingSinkAdd(false);
       this.updateDataList(list);
