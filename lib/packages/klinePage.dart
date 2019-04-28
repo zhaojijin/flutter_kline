@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-16 11:08:20
- * @LastEditTime: 2019-04-26 17:34:12
+ * @LastEditTime: 2019-04-28 18:59:50
  */
 import 'dart:math';
 
@@ -65,7 +65,7 @@ class KlinePageWidget extends StatelessWidget {
     _hiddenCrossWidget() {
       isLongPress = false;
       bloc.marketSinkAdd(
-          Market(null, null, null, null, null, isShowCandleInfo: false));
+          Market(null, null, null, null, null,null, isShowCandleInfo: false));
     }
 
     _horizontalDrag(Offset offset) {
@@ -133,6 +133,11 @@ class KlinePageWidget extends StatelessWidget {
     return KlineBlocProvider<KlineBloc>(
       bloc: bloc,
       child: GestureDetector(
+        onTap: () {
+          if (isLongPress) {
+            _hiddenCrossWidget();
+          } 
+        },
         /// 长按
         onLongPressDragStart: (longPressDragStartDetail) {
           _showCrossWidget(longPressDragStartDetail.globalPosition);
@@ -143,12 +148,14 @@ class KlinePageWidget extends StatelessWidget {
           // print('onLongPressDragUpdate');
         },
         onLongPressDragUp: (longPressDragUpDetail) {
-          _hiddenCrossWidget();
           // print('onLongPressDragUp');
         },
 
         /// 水平拖拽
         onHorizontalDragDown: (horizontalDragDown) {
+          if (isLongPress) {
+            _hiddenCrossWidget();
+          }
           lastPoint = horizontalDragDown.globalPosition;
         },
         onHorizontalDragUpdate: (details) {
@@ -166,6 +173,9 @@ class KlinePageWidget extends StatelessWidget {
 
         /// 缩放
         onScaleUpdate: (details) {
+          if (isLongPress) {
+            _hiddenCrossWidget();
+          }
           _scaleUpdate(details.scale);
         },
         onScaleEnd: (_) {

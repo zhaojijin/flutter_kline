@@ -138,7 +138,7 @@ class KlinePageBloc extends KlineBloc {
       List<Market> list = List<Market>();
       for (var item in marketData.data) {
         Market market =
-            Market(item.open, item.high, item.low, item.close, item.vol);
+            Market(item.open, item.high, item.low, item.close, item.vol,item.id);
         list.add(market);
       }
       this.showLoadingSinkAdd(false);
