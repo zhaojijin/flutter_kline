@@ -60,7 +60,6 @@ class _KlinePeriodSwitchWidgetState extends State<KlinePeriodSwitchWidget> {
     double indicatorWidth = (width * 2 / 3).ceilToDouble();
     double indicatorHeight = 2;
     double indicatorTopMargin = height - indicatorHeight*2;
-    print(height);
     double left = (currentIndex * width + indicatorWidth / 4).ceilToDouble();
 
     Widget _indicator() {

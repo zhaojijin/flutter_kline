@@ -51,6 +51,10 @@ class KlineBloc extends KlineBlocBase {
   double screenWidth = 375;
   double priceMax;
   double priceMin;
+
+  double pMax;
+  double pMin;
+
   double volumeMax;
   int firstScreenCandleCount;
   double candlestickWidth = kCandlestickWidth;
@@ -135,12 +139,17 @@ class KlineBloc extends KlineBlocBase {
   void _calculateCurrentKlineDataLimit() {
     double _priceMax = -double.infinity;
     double _priceMin = double.infinity;
+    double _pMax = -double.infinity;
+    double _pMin = double.infinity;
     double _volumeMax = -double.infinity;
     for (var item in klineCurrentList) {
       _volumeMax = max(item.vol, _volumeMax);
 
       _priceMax = max(_priceMax, item.high);
       _priceMin = min(_priceMin, item.low);
+
+      _pMax = max(_pMax, item.high);
+      _pMin = min(_pMin, item.low);
 
       /// 与x日均线数据对比计算最高最低价格
       if (item.priceMa1 != null) {
@@ -155,6 +164,8 @@ class KlineBloc extends KlineBlocBase {
         _priceMax = max(_priceMax, item.priceMa3);
         _priceMin = min(_priceMin, item.priceMa3);
       }
+      pMax = _pMax;
+      pMin = _pMin;
       priceMax = _priceMax;
       priceMin = _priceMin;
       volumeMax = _volumeMax;

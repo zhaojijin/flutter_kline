@@ -41,7 +41,7 @@ class KlineWidget extends StatelessWidget {
                       KlineCandleWidget(),
                       KlineMaLineWidget(YKMAType.MA5),
                       KlineMaLineWidget(YKMAType.MA10),
-                      KlineMaLineWidget(YKMAType.MA20),
+                      KlineMaLineWidget(YKMAType.MA30),
                     ],
                   ),
                 ),

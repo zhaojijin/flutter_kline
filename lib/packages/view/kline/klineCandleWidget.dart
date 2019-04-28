@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-18 12:44:49
- * @LastEditTime: 2019-04-25 17:28:56
+ * @LastEditTime: 2019-04-26 16:40:18
  */
 
 import 'package:flutter/material.dart';
@@ -19,12 +19,16 @@ class KlineCandleWidget extends StatelessWidget {
     return StreamBuilder(
       stream: bloc.currentKlineListStream,
       builder: (BuildContext context, AsyncSnapshot<List<Market>> snapshot) {
-        // List<Market> listData =  ?? [Market(0, 0, 0, 0, 0)];
         return CustomPaint(
           key: bloc.candleWidgetKey,
           size: Size(bloc.screenWidth, bloc.screenWidth / kcandleAspectRatio),
-          painter: _CandlePainter(snapshot.data, bloc.priceMax, bloc.priceMin,
-              bloc.candlestickWidth),
+          painter: _CandlePainter(
+              listData: snapshot.data,
+              priceMax: bloc.priceMax,
+              priceMin: bloc.priceMin,
+              pMax: bloc.pMax,
+              pMin: bloc.pMin,
+              candlestickWidth: bloc.candlestickWidth),
         );
       },
     );
@@ -32,15 +36,19 @@ class KlineCandleWidget extends StatelessWidget {
 }
 
 class _CandlePainter extends CustomPainter {
-  _CandlePainter(
-    this.listData,
-    this.priceMax,
-    this.priceMin,
-    this.candlestickWidth,
-  );
+  _CandlePainter({
+    @required this.listData,
+    @required this.priceMax,
+    @required this.priceMin,
+    @required this.pMax,
+    @required this.pMin,
+    @required this.candlestickWidth,
+  });
   final List<Market> listData;
   final double priceMax;
   final double priceMin;
+  final double pMax;
+  final double pMin;
 
   /// 烛台宽度
   final double candlestickWidth;
@@ -52,21 +60,22 @@ class _CandlePainter extends CustomPainter {
   final double candlestickGap = kCandlestickGap;
 
   /// 上影线上方距离
-  final double topMargin = kTopMargin;
+  final double topMargin = kTopMargin + kCandleTextHight / 2;
   final Color increaseColor = kIncreaseColor;
   final Color decreaseColor = kDecreaseColor;
+  final double candleTextHight = kCandleTextHight;
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint linePaint = Paint()
-      .. color = Colors.black
+      ..color = Colors.black
       ..blendMode = BlendMode.colorBurn
       ..strokeWidth = 0.5;
-    canvas.drawLine(Offset(0,0), Offset(size.width,0), linePaint);
+    canvas.drawLine(Offset(0, 0), Offset(size.width, 0), linePaint);
     if (listData == null || priceMax == null || priceMin == null) {
       return;
     }
-    double height = size.height - topMargin;
+    double height = size.height - topMargin - kCandleTextHight / 2;
     double heightPriceOffset = 0;
     if ((priceMax - priceMin) != 0) {
       heightPriceOffset = height / (priceMax - priceMin);
@@ -76,6 +85,8 @@ class _CandlePainter extends CustomPainter {
     double candlestickRight;
     double candlestickBottom;
     Paint candlestickPaint;
+    bool maxPricePainted = false;
+    bool minPricePainted = false;
     for (int i = 0; i < listData.length; i++) {
       Market market = listData[i];
       // 画笔
@@ -118,11 +129,11 @@ class _CandlePainter extends CustomPainter {
           height - (market.low - priceMin) * heightPriceOffset + topMargin;
       double high =
           height - (market.high - priceMin) * heightPriceOffset + topMargin;
-      // print('candlestickWidth : $candlestickWidth');   
-      double candlestickCenterX =
-          candlestickLeft + candlestickWidth.ceilToDouble() / 2.0 - wickWidth.ceilToDouble() / 2.0;
-      // print('candlestickWidth : $candlestickWidth candlestickCenterX : $candlestickCenterX');
-      double closeOffsetY = height - (market.close - priceMin) *heightPriceOffset + topMargin;
+      double candlestickCenterX = candlestickLeft +
+          candlestickWidth.ceilToDouble() / 2.0 -
+          wickWidth / 2.0;
+      double closeOffsetY =
+          height - (market.close - priceMin) * heightPriceOffset + topMargin;
       market.offset = Offset(candlestickCenterX, closeOffsetY);
       Offset highBottomOffset = Offset(candlestickCenterX, candlestickTop);
       Offset highTopOffset = Offset(candlestickCenterX, high);
@@ -130,7 +141,57 @@ class _CandlePainter extends CustomPainter {
       Offset lowTopOffset = Offset(candlestickCenterX, low);
       canvas.drawLine(highBottomOffset, highTopOffset, candlestickPaint);
       canvas.drawLine(lowBottomOffset, lowTopOffset, candlestickPaint);
+
+      Paint pricePaint = Paint()
+        ..color = kCandleTextColor
+        ..strokeWidth = 1;
+      // 绘制最大值
+      double lineWidth = 10;
+      bool isLeft = false;
+      double textOrginX;
+      if (candlestickCenterX < size.width / 2) {
+        textOrginX = candlestickCenterX + lineWidth;
+        isLeft = true;
+      } else {
+        textOrginX = candlestickCenterX - lineWidth;
+        isLeft = false;
+      }
+      if (market.high == pMax && !maxPricePainted) {
+        canvas.drawLine(Offset(candlestickCenterX, high),
+            Offset(textOrginX, high), pricePaint);
+        _drawText(canvas, Offset(textOrginX, high - kCandleTextHight / 2),
+            market.high.toStringAsPrecision(kGridPricePrecision), isLeft);
+        maxPricePainted = true;
+      }
+      // 绘制最小值
+      if (market.low == pMin && !minPricePainted) {
+        canvas.drawLine(Offset(candlestickCenterX, low),
+            Offset(textOrginX, low), pricePaint);
+        _drawText(canvas, Offset(textOrginX, low - kCandleTextHight / 2),
+            market.low.toStringAsPrecision(kGridPricePrecision), isLeft);
+        minPricePainted = true;
+      }
     }
+  }
+
+  _drawText(Canvas canvas, Offset offset, String text, bool isLeft) {
+    TextPainter textPainter = TextPainter(
+        text: TextSpan(
+          text: text,
+          style: TextStyle(
+            color: kCandleTextColor,
+            fontSize: kCandleFontSize,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        maxLines: 1,
+        textDirection: TextDirection.ltr);
+    textPainter.layout();
+    Offset of = offset;
+    if (!isLeft) {
+      of = Offset(offset.dx - textPainter.width, offset.dy);
+    }
+    textPainter.paint(canvas, of);
   }
 
   @override

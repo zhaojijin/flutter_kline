@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-16 10:21:10
- * @LastEditTime: 2019-04-26 10:30:48
+ * @LastEditTime: 2019-04-26 11:37:24
  */
 
 import 'package:flutter/cupertino.dart';
@@ -139,7 +139,6 @@ class KlinePageBloc extends KlineBloc {
       for (var item in marketData.data) {
         Market market =
             Market(item.open, item.high, item.low, item.close, item.vol);
-        market.printDesc();
         list.add(market);
       }
       this.showLoadingSinkAdd(false);

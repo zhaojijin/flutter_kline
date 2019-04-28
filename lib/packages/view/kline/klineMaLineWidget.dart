@@ -73,7 +73,7 @@ class _KlineMaLinePainter extends CustomPainter {
       // '============ market.priceMa1 : ${market.priceMa1}  market.priceMa2 : ${market.priceMa2}  market.priceMa3 : ${market.priceMa3} index: $i count : ${listData.length}');
       if ((market.priceMa1 == null && maType == YKMAType.MA5) ||
           (market.priceMa2 == null && maType == YKMAType.MA10) ||
-          (market.priceMa3 == null && maType == YKMAType.MA20)) {
+          (market.priceMa3 == null && maType == YKMAType.MA30)) {
         // print(
         // 'continue========= ${market.priceMa1}==${market.priceMa2}==${market.priceMa3}');
         break;
@@ -96,7 +96,7 @@ class _KlineMaLinePainter extends CustomPainter {
             currentNextMaPrice = nextMarket.priceMa2;
           }
           break;
-        case YKMAType.MA20:
+        case YKMAType.MA30:
           {
             lineColor = kMa20LineColor;
             currentMaPrice = market.priceMa3;

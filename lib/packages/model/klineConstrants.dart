@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-16 16:45:21
- * @LastEditTime: 2019-04-25 17:32:33
+ * @LastEditTime: 2019-04-26 16:42:32
  */
 
 import 'package:flutter/material.dart';
@@ -29,6 +29,9 @@ const Color kDecreaseColor = Color(0xffff4400);
 const Color kIncreaseColor = Colors.green;
 const Color kBackgroundColor = Color(0xff111825);
 const double kcandleAspectRatio = 1;
+const Color kCandleTextColor = Colors.white;
+const double kCandleFontSize = 9;
+const double kCandleTextHight = 12;
 
 /**********************************交易量相关配置**********************************/
 /// 柱状体宽度
@@ -80,14 +83,11 @@ const double kCandleInfoLeftMargin = 5;
 const double kCandleInfoTopMargin = 20;
 const double kCandleInfoBorderWidth = 1;
 const EdgeInsets kCandleInfoPadding = EdgeInsets.fromLTRB(5, 3, 5, 3);
-
-enum YKViewType {
-  Kline,
-  Volume,
-}
+const double kCandleInfoWidth = 130;
+const double kCandleInfoHeight = 137;
 
 enum YKMAType {
   MA5,
   MA10,
-  MA20
+  MA30
 }

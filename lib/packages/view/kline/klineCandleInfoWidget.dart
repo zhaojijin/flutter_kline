@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-22 18:55:06
- * @LastEditTime: 2019-04-26 11:02:21
+ * @LastEditTime: 2019-04-26 16:37:31
  */
 
 import 'package:flutter/material.dart';
@@ -18,12 +18,13 @@ class KlineCandleInfoWidget extends StatelessWidget {
     List<String> _list = ['时间', '开', '高', '低', '收', '涨跌额', '涨跌幅', '成交量'];
     KlineBloc bloc = KlineBlocProvider.of<KlineBloc>(context);
     double screenWidth = MediaQuery.of(context).size.width;
-    double width = 130;
-    double height = 137;
+    double width = kCandleInfoWidth;
+    double height = kCandleInfoHeight;
     double rightLeftMargin = screenWidth - width - kCandleInfoLeftMargin;
-    double rowTotalHeight = height - kCandleInfoPadding.top - kCandleInfoPadding.bottom;
+    double rowTotalHeight =
+        height - kCandleInfoPadding.top - kCandleInfoPadding.bottom;
     double rowHeight = (rowTotalHeight / _list.length);
-    
+
     return StreamBuilder(
       stream: bloc.klineMarketStream,
       builder: (BuildContext context, AsyncSnapshot<Market> snapshot) {
@@ -34,10 +35,15 @@ class KlineCandleInfoWidget extends StatelessWidget {
             width: width,
             height: height,
             margin: (market.offset.dx > screenWidth / 2)
-                ? EdgeInsets.only(top: kCandleInfoTopMargin + originY, left: kCandleInfoLeftMargin)
-                : EdgeInsets.only(top: kCandleInfoTopMargin + originY, left: rightLeftMargin),
+                ? EdgeInsets.only(
+                    top: kCandleInfoTopMargin + originY,
+                    left: kCandleInfoLeftMargin)
+                : EdgeInsets.only(
+                    top: kCandleInfoTopMargin + originY, left: rightLeftMargin),
             decoration: BoxDecoration(
-                border: Border.all(color: kCandleInfoBorderColor, width: kCandleInfoBorderWidth),
+                border: Border.all(
+                    color: kCandleInfoBorderColor,
+                    width: kCandleInfoBorderWidth),
                 color: kCandleInfoBgColor),
             child: ListView.builder(
               padding: kCandleInfoPadding,
@@ -52,7 +58,9 @@ class KlineCandleInfoWidget extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           '${_list[index]}',
-                          style: TextStyle(color: kCandleInfoTextColor, fontSize: kCandleInfoLeftFontSize),
+                          style: TextStyle(
+                              color: kCandleInfoTextColor,
+                              fontSize: kCandleInfoLeftFontSize),
                         ),
                       ),
                       Container(
@@ -63,7 +71,12 @@ class KlineCandleInfoWidget extends StatelessWidget {
                             : Text(
                                 '${marketInfoList[index]}',
                                 style: TextStyle(
-                                    color: _list[index].contains('涨') ? marketInfoList[index].contains('+') ? kIncreaseColor : kDecreaseColor : kCandleInfoTextColor, fontSize: kCandleInfoRightFontSize),
+                                    color: _list[index].contains('涨')
+                                        ? marketInfoList[index].contains('+')
+                                            ? kIncreaseColor
+                                            : kDecreaseColor
+                                        : kCandleInfoTextColor,
+                                    fontSize: kCandleInfoRightFontSize),
                               ),
                       ),
                     ],
@@ -73,6 +86,7 @@ class KlineCandleInfoWidget extends StatelessWidget {
             ),
           );
         }
+
         return market == null
             ? Container()
             : (market.isShowCandleInfo ? _candleInfoWidget() : Container());

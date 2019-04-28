@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-16 11:08:20
- * @LastEditTime: 2019-04-25 10:31:04
+ * @LastEditTime: 2019-04-26 17:34:12
  */
 import 'dart:math';
 
@@ -34,8 +34,7 @@ class KlinePageWidget extends StatelessWidget {
           bloc.getSingleScreenCandleCount(screenWidth);
       int offsetCount =
           ((offset.dx / screenWidth) * singleScreenCandleCount).toInt();
-      print(
-          'offsetCount :$offsetCount length: ${bloc.klineCurrentList.length}');
+      // print('offsetCount :$offsetCount length: ${bloc.klineCurrentList.length}');
       if (offsetCount > bloc.klineCurrentList.length - 1) {
         return;
       }
@@ -58,7 +57,7 @@ class KlinePageWidget extends StatelessWidget {
         market.candleWidgetOriginY =
             candleWidgetOriginOffset.dy - currentWidgetOriginOffset.dy;
         market.gridTotalHeight = candleWidgetRenderBox.size.height + volumeWidgetRenderBox.size.height;
-        print('${candleWidgetRenderBox.size} ${volumeWidgetRenderBox.size}');
+        // print('${candleWidgetRenderBox.size} ${volumeWidgetRenderBox.size}');
         bloc.marketSinkAdd(market);
       }
     }
@@ -94,7 +93,7 @@ class KlinePageWidget extends StatelessWidget {
           return;
         }
         int fromIndex = 0;
-        print('fromIndex: $fromIndex');
+        // print('fromIndex: $fromIndex');
 
         // 如果当前偏移的个数 没有达到一屏所展示的个数则从0开始取数据
         if (currentOffsetCount > singleScreenCandleCount) {
@@ -102,7 +101,7 @@ class KlinePageWidget extends StatelessWidget {
         }
         lastPoint = offset;
         bloc.getSubKlineList(fromIndex, currentOffsetCount);
-        print('fromIndex: $fromIndex  currentOffsetCount: $currentOffsetCount');
+        // print('fromIndex: $fromIndex  currentOffsetCount: $currentOffsetCount');
       }
     }
 
@@ -127,8 +126,7 @@ class KlinePageWidget extends StatelessWidget {
       int fromIndex = toIndex - currentScreenCountNum;
       fromIndex = max(0, fromIndex);
 
-      print(
-          'from: $fromIndex   to: $toIndex  currentScreenCountNum: $currentScreenCountNum');
+      // print('from: $fromIndex   to: $toIndex  currentScreenCountNum: $currentScreenCountNum');
       bloc.getSubKlineList(fromIndex, toIndex);
     }
 
@@ -138,15 +136,15 @@ class KlinePageWidget extends StatelessWidget {
         /// 长按
         onLongPressDragStart: (longPressDragStartDetail) {
           _showCrossWidget(longPressDragStartDetail.globalPosition);
-          print('onLongPressDragStart');
+          // print('onLongPressDragStart');
         },
         onLongPressDragUpdate: (longPressDragUpdateDetail) {
           _showCrossWidget(longPressDragUpdateDetail.globalPosition);
-          print('onLongPressDragUpdate');
+          // print('onLongPressDragUpdate');
         },
         onLongPressDragUp: (longPressDragUpDetail) {
           _hiddenCrossWidget();
-          print('onLongPressDragUp');
+          // print('onLongPressDragUp');
         },
 
         /// 水平拖拽

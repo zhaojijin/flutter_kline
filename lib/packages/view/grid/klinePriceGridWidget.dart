@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-16 17:31:59
- * @LastEditTime: 2019-04-23 22:12:32
+ * @LastEditTime: 2019-04-26 16:31:41
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_kline/packages/bloc/klineBloc.dart';
@@ -61,19 +61,20 @@ class _KlineGridPainter extends CustomPainter {
       return;
     }
     double priceOffset = (max - min) / kGridRowCount;
-    double priceOriginX =
-        width - max.toStringAsPrecision(kGridPricePrecision).length * 6;
+    double priceOriginX = width;
     // 字体是10号字，但是实际上字体的高度会大于10所以加3
     double textHeight = kGridPriceFontSize + 3;
-    // print('maxPrice: $max, minPrice: $min'); // 5407.18
     for (var i = 0; i < kGridRowCount + 1; i++) {
+      double originY = kTopMargin + heightOffset * i - textHeight;
+      if (i == 0) {
+        originY = kTopMargin;
+      }
       _drawText(
           canvas,
-          Offset(priceOriginX, kTopMargin + heightOffset * i - textHeight),
+          Offset(priceOriginX, originY),
           (min + priceOffset * (kGridRowCount - i))
               .toStringAsPrecision(kGridPricePrecision));
     }
-
   }
 
   _drawText(Canvas canvas, Offset offset, String text) {
@@ -88,7 +89,8 @@ class _KlineGridPainter extends CustomPainter {
         ),
         textDirection: TextDirection.ltr);
     textPainter.layout();
-    textPainter.paint(canvas, offset);
+    Offset of = Offset(offset.dx - textPainter.width, offset.dy);
+    textPainter.paint(canvas, of);
   }
 
   @override
