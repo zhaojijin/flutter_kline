@@ -76,9 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: <Widget>[
                           KlinePageWidget(bloc),
                           Center(
-                          
                             child: Container(
-                              
                               margin: EdgeInsets.only(top: 20),
                               child: Text(
                               '财富自由，一站拥有',

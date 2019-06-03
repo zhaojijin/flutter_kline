@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: zhaojijin
- * @LastEditors: Please set LastEditors
+ * @LastEditors: zhaojijin
  * @Date: 2019-04-16 14:33:00
- * @LastEditTime: 2019-04-19 17:09:20
+ * @LastEditTime: 2019-05-13 16:07:14
  */
 
 import 'package:flutter_kline/packages/model/klineModel.dart';

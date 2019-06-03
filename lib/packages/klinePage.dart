@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-16 11:08:20
- * @LastEditTime: 2019-04-28 18:59:50
+ * @LastEditTime: 2019-06-03 10:45:24
  */
 import 'dart:math';
 
@@ -139,16 +139,13 @@ class KlinePageWidget extends StatelessWidget {
           } 
         },
         /// 长按
-        onLongPressDragStart: (longPressDragStartDetail) {
+        onLongPressStart: (longPressDragStartDetail) {
           _showCrossWidget(longPressDragStartDetail.globalPosition);
           // print('onLongPressDragStart');
         },
-        onLongPressDragUpdate: (longPressDragUpdateDetail) {
+        onLongPressMoveUpdate: (longPressDragUpdateDetail) {
           _showCrossWidget(longPressDragUpdateDetail.globalPosition);
           // print('onLongPressDragUpdate');
-        },
-        onLongPressDragUp: (longPressDragUpDetail) {
-          // print('onLongPressDragUp');
         },
 
         /// 水平拖拽
