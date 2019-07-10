@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-16 10:21:10
- * @LastEditTime: 2019-04-26 11:37:24
+ * @LastEditTime: 2019-07-10 10:34:51
  */
 
 import 'package:flutter/cupertino.dart';
@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Container(
                               margin: EdgeInsets.only(top: 20),
                               child: Text(
-                              '财富自由，一站拥有',
+                              '财富自由',
                               style:
                                   TextStyle(fontSize: 12, color: Colors.blueGrey),
                               ),
