@@ -156,8 +156,8 @@
 				TargetAttributes = {
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 3Y38V45W93;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 8R8RTYMXAW;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -166,6 +166,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -312,9 +313,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 3Y38V45W93;
+				DEVELOPMENT_TEAM = 8R8RTYMXAW;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -328,7 +329,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.flutterKline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = SimpleFinance_All_Development;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Profile;
@@ -441,9 +442,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 3Y38V45W93;
+				DEVELOPMENT_TEAM = 8R8RTYMXAW;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -457,7 +458,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.flutterKline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = SimpleFinance_All_Development;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -468,9 +469,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 3Y38V45W93;
+				DEVELOPMENT_TEAM = 8R8RTYMXAW;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -484,7 +485,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.flutterKline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = SimpleFinance_All_Development;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

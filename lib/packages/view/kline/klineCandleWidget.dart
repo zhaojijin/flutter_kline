@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-18 12:44:49
- * @LastEditTime: 2019-04-26 16:40:18
+ * @LastEditTime: 2019-08-20 15:16:52
  */
 
 import 'package:flutter/material.dart';
@@ -130,8 +130,7 @@ class _CandlePainter extends CustomPainter {
       double high =
           height - (market.high - priceMin) * heightPriceOffset + topMargin;
       double candlestickCenterX = candlestickLeft +
-          candlestickWidth.ceilToDouble() / 2.0 -
-          wickWidth / 2.0;
+          candlestickWidth.ceilToDouble() / 2.0;
       double closeOffsetY =
           height - (market.close - priceMin) * heightPriceOffset + topMargin;
       market.offset = Offset(candlestickCenterX, closeOffsetY);

@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-16 15:02:34
- * @LastEditTime: 2019-04-26 10:35:19
+ * @LastEditTime: 2019-10-11 10:29:43
  */
 import 'dart:math';
 
@@ -187,8 +187,8 @@ class KlineBloc extends KlineBlocBase {
   }
 
   void showLoadingSinkAdd(bool show) {
-    if (show != null) {
+    // if (show != null) {
     _klineShowLoadingSink.add(show);
-    }
+    // }
   }
 }
