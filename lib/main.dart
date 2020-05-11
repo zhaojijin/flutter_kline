@@ -3,7 +3,7 @@
  * @Author: zhaojijin
  * @LastEditors: zhaojijin
  * @Date: 2019-04-16 10:21:10
- * @LastEditTime: 2019-12-13 15:20:00
+ * @LastEditTime: 2020-05-11 16:48:45
  */
 
 import 'package:flutter/cupertino.dart';
@@ -103,7 +103,7 @@ Future<String> getIPAddress(String period) async {
     period = '1day';
   }
   var url =
-      'https://api.huobi.io/market/history/kline?period=$period&size=449&symbol=btcusdt';
+      'https://api.huobi.me/market/history/kline?period=$period&size=449&symbol=btcusdt';
   String result;
   var response = await http.get(url);
   if (response.statusCode == HttpStatus.ok) {
